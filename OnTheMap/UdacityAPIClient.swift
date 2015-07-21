@@ -9,7 +9,7 @@
 import Foundation
 
 class UdacityAPIClient : NSObject {
-    func createSession (userName: String, password: String) {
+    func createSession (userName: String, parameterPassword: String) {
         
         var url_ToFind = "https://www.udacity.com/api/session"        
         
@@ -18,7 +18,7 @@ class UdacityAPIClient : NSObject {
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = "{\"udacity\": {\"username\": \"\(userName)\", \"password\": \"\(password)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPBody = "{\"udacity\": {\"username\": \"\(userName)\", \"password\": \"\(parameterPassword)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
         
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in

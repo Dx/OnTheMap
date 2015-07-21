@@ -28,10 +28,10 @@ class LoginViewController: UIViewController {
     @IBAction func loginClic(sender: AnyObject) {
         
         var username = usernameText.text
-        var password = passwordText
+        var passwordString = passwordText.text
         
-        let model = UdacityAPIClient
-        model.createSession(username, password)
+        let model = UdacityAPIClient()
+        model.createSession(username, parameterPassword: passwordString)
         
         performSegueWithIdentifier("showTabController", sender: self)
     }
