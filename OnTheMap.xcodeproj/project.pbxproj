@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1DA35EB1B5F62F800193B37 /* ParseAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DA35EA1B5F62F800193B37 /* ParseAPIClient.swift */; };
+		E1DA35ED1B5F653E00193B37 /* MapPointEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DA35EC1B5F653E00193B37 /* MapPointEntity.swift */; };
+		E1DBCDB71B764C9700CDDFB2 /* UdacitySessionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DBCDB61B764C9700CDDFB2 /* UdacitySessionEntity.swift */; };
 		E1E7F1271B5E101E00C846DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E7F1261B5E101E00C846DA /* AppDelegate.swift */; };
 		E1E7F1291B5E101E00C846DA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E7F1281B5E101E00C846DA /* LoginViewController.swift */; };
 		E1E7F12C1B5E101E00C846DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1E7F12A1B5E101E00C846DA /* Main.storyboard */; };
@@ -30,6 +33,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E1DA35EA1B5F62F800193B37 /* ParseAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseAPIClient.swift; sourceTree = "<group>"; };
+		E1DA35EC1B5F653E00193B37 /* MapPointEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPointEntity.swift; sourceTree = "<group>"; };
+		E1DBCDB61B764C9700CDDFB2 /* UdacitySessionEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacitySessionEntity.swift; sourceTree = "<group>"; };
 		E1E7F1211B5E101E00C846DA /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E7F1251B5E101E00C846DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1E7F1261B5E101E00C846DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +71,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E1DA35EE1B5F654700193B37 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				E1DA35EC1B5F653E00193B37 /* MapPointEntity.swift */,
+				E1DBCDB61B764C9700CDDFB2 /* UdacitySessionEntity.swift */,
+			);
+			name = Entities;
+			sourceTree = "<group>";
+		};
 		E1E7F1181B5E101E00C846DA = {
 			isa = PBXGroup;
 			children = (
@@ -144,7 +159,9 @@
 		E1E7F14A1B5E189D00C846DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E1DA35EE1B5F654700193B37 /* Entities */,
 				E1E7F14F1B5E1B1A00C846DA /* UdacityAPIClient.swift */,
+				E1DA35EA1B5F62F800193B37 /* ParseAPIClient.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -193,6 +210,7 @@
 		E1E7F1191B5E101E00C846DA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = Palmera;
 				TargetAttributes = {
@@ -250,10 +268,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1E7F1291B5E101E00C846DA /* LoginViewController.swift in Sources */,
+				E1DBCDB71B764C9700CDDFB2 /* UdacitySessionEntity.swift in Sources */,
 				E1E7F1501B5E1B1A00C846DA /* UdacityAPIClient.swift in Sources */,
+				E1DA35ED1B5F653E00193B37 /* MapPointEntity.swift in Sources */,
 				E1E7F1481B5E187900C846DA /* MapViewController.swift in Sources */,
 				E1E7F14C1B5E18C200C846DA /* ListViewController.swift in Sources */,
 				E1E7F1271B5E101E00C846DA /* AppDelegate.swift in Sources */,
+				E1DA35EB1B5F62F800193B37 /* ParseAPIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +470,7 @@
 				E1E7F1421B5E101E00C846DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E1E7F1431B5E101E00C846DA /* Build configuration list for PBXNativeTarget "OnTheMapTests" */ = {
 			isa = XCConfigurationList;
@@ -457,6 +479,7 @@
 				E1E7F1451B5E101E00C846DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
