@@ -17,6 +17,28 @@ class ListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        var toolbar = UIToolbar()
+        toolbar.barStyle = UIBarStyle.Default
+        toolbar.sizeToFit()
+        let height = toolbar.frame.size.height
+        let viewBounds = self.parentViewController!.view.bounds
+        let viewHeight = CGRectGetHeight(viewBounds)
+        let viewWidth = CGRectGetWidth(viewBounds)
+        let rectArea = CGRectMake(0, 20, viewWidth, height)
+        
+        toolbar.frame = rectArea
+        
+        var logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logout")
+        var addButton = UIBarButtonItem(title: "Add", style: .Plain, target: self, action: "logout")
+        var refreshButton = UIBarButtonItem(title: "Ref", style: .Plain, target: self, action: "logout")
+        var space = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        
+        var buttons = [logoutButton, space, addButton, refreshButton]
+        
+        toolbar.setItems(buttons, animated: true)
+        
+        self.navigationController!.view.addSubview(toolbar)
+        
         pointsTable.delegate = self
         
         let parseClient = ParseAPIClient()

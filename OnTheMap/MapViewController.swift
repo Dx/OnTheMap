@@ -37,6 +37,36 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.reloadPins()
     }
     
+    @IBAction func addClick(sender: AnyObject) {
+
+        confirmToAdd()
+    }
+    
+    func confirmToAdd() {
+        let parseClient = ParseAPIClient()
+        
+        let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
+        
+        parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
+            if let error = error {
+                self.performSegueWithIdentifier("showAddLocation", sender: self)
+            } else {
+                if let point = result {
+                    var alert = UIAlertController(title: "Location found for \(point.firstName) \(point.lastName)", message: "Would you like to update your data?", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                        self.performSegueWithIdentifier("showAddLocation", sender: self)
+                    }))
+                    
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            }
+        })
+    }
+
+
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         
         let reuseId = "pin"
@@ -58,9 +88,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
+        
         if control == annotationView.rightCalloutAccessoryView {
             let app = UIApplication.sharedApplication()
-            app.openURL(NSURL(string: annotationView.annotation.subtitle!)!)
+            let url = NSURL(string: annotationView.annotation.subtitle!)
+            if url != nil{
+                app.openURL(url!)
+            }
         }
     }
     

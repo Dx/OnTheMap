@@ -10,7 +10,7 @@ import Foundation
 
 class UdacityAPIClient : NSObject {
     
-    var udacitySession = UdacitySessionEntity(keyP:"", sessionIdP:"", expirationDateP:"")
+    var udacitySession = UdacitySessionEntity()
     
     
     func createSession (userName: String, parameterPassword: String) {
@@ -63,11 +63,52 @@ class UdacityAPIClient : NSObject {
                     }
                 }
                 
+                let sessionObject = UdacitySessionEntity()
+                sessionObject.key = keySession
+                sessionObject.sessionId = sessionId
+                sessionObject.expirationDate = sessionExpiration
+                
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.udacitySession = UdacitySessionEntity(keyP: keySession, sessionIdP: sessionId, expirationDateP: sessionExpiration)
+                    self.udacitySession = sessionObject
                 }
                 
-                NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessNotification", object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessNotification", object: sessionObject)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func getUserData (userId: String, completionHandler: (user:UserData?, error: NSError?) -> Void) -> Void {
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(userId)")!)
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil {
+                let newError = NSError(domain: "UdacityApi", code: 1, userInfo: nil)
+                completionHandler(user: nil, error: newError)
+            }
+            if let unwrappedData = data {
+                let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
+                println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
+                
+                var parsingError: NSError? = nil
+                let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
+                
+                let userData = UserData(firstNameP: "a", lastNameP: "b")
+                
+                if let user = parsedResult["user"] as? NSDictionary {
+                    if let lastName = user["last_name"] as? String {
+                        if let firstName = user["first_name"] as? String {
+                            userData.firstName = firstName
+                            userData.lastName = lastName
+                        }
+                    }
+                }
+                
+                completionHandler(user: userData, error: nil)
             }
         }
         

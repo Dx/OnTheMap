@@ -43,6 +43,21 @@ class LoginViewController: UIViewController {
     }
     
     @objc func loginSuccess (notification: NSNotification) {
+        
+        if let session = notification.object as? UdacitySessionEntity {
+            
+            let udacityClient = UdacityAPIClient()
+            udacityClient.getUserData(session.key!) { result, error in
+                if let sessionResult = result {
+                    session.lastName = sessionResult.lastName
+                    session.firstName = sessionResult.firstName
+                }
+            }
+            
+            (UIApplication.sharedApplication().delegate as! AppDelegate).session = session as UdacitySessionEntity
+            
+        }
+        
         performSegueWithIdentifier("showTabController", sender: self)
     }
     

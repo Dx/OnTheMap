@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E17131E31B7DB2B000C80BED /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E21B7DB2B000C80BED /* UserData.swift */; };
+		E17131E51B7DC18600C80BED /* LocatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E41B7DC18600C80BED /* LocatorViewController.swift */; };
+		E17131E71B7DC75100C80BED /* ShareURLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E61B7DC75100C80BED /* ShareURLViewController.swift */; };
+		E17131E91B7DC98200C80BED /* PositionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E81B7DC98200C80BED /* PositionEntity.swift */; };
 		E1DA35EB1B5F62F800193B37 /* ParseAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DA35EA1B5F62F800193B37 /* ParseAPIClient.swift */; };
 		E1DA35ED1B5F653E00193B37 /* MapPointEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DA35EC1B5F653E00193B37 /* MapPointEntity.swift */; };
 		E1DBCDB71B764C9700CDDFB2 /* UdacitySessionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DBCDB61B764C9700CDDFB2 /* UdacitySessionEntity.swift */; };
@@ -33,6 +37,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E17131E21B7DB2B000C80BED /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		E17131E41B7DC18600C80BED /* LocatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocatorViewController.swift; sourceTree = "<group>"; };
+		E17131E61B7DC75100C80BED /* ShareURLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareURLViewController.swift; sourceTree = "<group>"; };
+		E17131E81B7DC98200C80BED /* PositionEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionEntity.swift; sourceTree = "<group>"; };
 		E1DA35EA1B5F62F800193B37 /* ParseAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseAPIClient.swift; sourceTree = "<group>"; };
 		E1DA35EC1B5F653E00193B37 /* MapPointEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPointEntity.swift; sourceTree = "<group>"; };
 		E1DBCDB61B764C9700CDDFB2 /* UdacitySessionEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacitySessionEntity.swift; sourceTree = "<group>"; };
@@ -76,6 +84,8 @@
 			children = (
 				E1DA35EC1B5F653E00193B37 /* MapPointEntity.swift */,
 				E1DBCDB61B764C9700CDDFB2 /* UdacitySessionEntity.swift */,
+				E17131E21B7DB2B000C80BED /* UserData.swift */,
+				E17131E81B7DC98200C80BED /* PositionEntity.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -144,6 +154,8 @@
 				E1E7F1281B5E101E00C846DA /* LoginViewController.swift */,
 				E1E7F1471B5E187900C846DA /* MapViewController.swift */,
 				E1E7F14B1B5E18C200C846DA /* ListViewController.swift */,
+				E17131E41B7DC18600C80BED /* LocatorViewController.swift */,
+				E17131E61B7DC75100C80BED /* ShareURLViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -270,9 +282,13 @@
 				E1E7F1291B5E101E00C846DA /* LoginViewController.swift in Sources */,
 				E1DBCDB71B764C9700CDDFB2 /* UdacitySessionEntity.swift in Sources */,
 				E1E7F1501B5E1B1A00C846DA /* UdacityAPIClient.swift in Sources */,
+				E17131E31B7DB2B000C80BED /* UserData.swift in Sources */,
 				E1DA35ED1B5F653E00193B37 /* MapPointEntity.swift in Sources */,
 				E1E7F1481B5E187900C846DA /* MapViewController.swift in Sources */,
+				E17131E71B7DC75100C80BED /* ShareURLViewController.swift in Sources */,
 				E1E7F14C1B5E18C200C846DA /* ListViewController.swift in Sources */,
+				E17131E51B7DC18600C80BED /* LocatorViewController.swift in Sources */,
+				E17131E91B7DC98200C80BED /* PositionEntity.swift in Sources */,
 				E1E7F1271B5E101E00C846DA /* AppDelegate.swift in Sources */,
 				E1DA35EB1B5F62F800193B37 /* ParseAPIClient.swift in Sources */,
 			);
