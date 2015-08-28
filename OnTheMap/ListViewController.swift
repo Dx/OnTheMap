@@ -29,8 +29,8 @@ class ListViewController: UITableViewController {
         toolbar.frame = rectArea
         
         var logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logout")
-        var addButton = UIBarButtonItem(title: "Add", style: .Plain, target: self, action: "logout")
-        var refreshButton = UIBarButtonItem(title: "Ref", style: .Plain, target: self, action: "logout")
+        var addButton = UIBarButtonItem(title: "Add", style: .Plain, target: self, action: "add")
+        var refreshButton = UIBarButtonItem(title: "Ref", style: .Plain, target: self, action: "refresh")
         var space = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         
         var buttons = [logoutButton, space, addButton, refreshButton]
@@ -41,6 +41,10 @@ class ListViewController: UITableViewController {
         
         pointsTable.delegate = self
         
+        refresh()
+    }
+    
+    func refresh() {
         let parseClient = ParseAPIClient()
         parseClient.getLocationsFromParse() { result, error in
             if let error = error {
@@ -96,6 +100,30 @@ class ListViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func add() {
+        let parseClient = ParseAPIClient()
+        
+        let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
+        
+        parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
+            if let error = error {
+                self.performSegueWithIdentifier("showLocationFromTable", sender: self)
+            } else {
+                if let point = result {
+                    var alert = UIAlertController(title: "Location found for \(point.firstName) \(point.lastName)", message: "Would you like to update your data?", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                        self.performSegueWithIdentifier("showLocationFromTable", sender: self)
+                    }))
+                    
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            }
+        })
     }
 
 }

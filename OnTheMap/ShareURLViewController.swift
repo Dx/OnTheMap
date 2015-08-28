@@ -13,9 +13,9 @@ class ShareURLViewController: UIViewController {
     @IBOutlet weak var urlText: UITextField!
     
     @IBAction func cancelClick(sender: AnyObject) {
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
+    
     @IBAction func shareUrlClick(sender: AnyObject) {
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
@@ -25,7 +25,7 @@ class ShareURLViewController: UIViewController {
             if let error = error {
                 println("Error trying to get student locations")
             } else {
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
             }
         }
     }

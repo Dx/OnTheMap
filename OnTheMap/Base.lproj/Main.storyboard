@@ -63,11 +63,29 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="pointsTable" destination="K32-vx-tcE" id="s7s-2N-Nlq"/>
+                        <segue destination="NAn-sr-AhY" kind="presentation" identifier="showLocationFromTable" modalPresentationStyle="pageSheet" modalTransitionStyle="coverVertical" id="nVZ-iI-cmf"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7g7-Kg-nCI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="782.5" y="431.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="if1-IW-EbE">
+            <objects>
+                <navigationController id="NAn-sr-AhY" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BKe-Qk-eWe">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ax6-lr-yei" kind="relationship" relationship="rootViewController" id="iVD-bl-uAH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vdj-ms-a5J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1290.5" y="172.5"/>
         </scene>
         <!--Locator View Controller-->
         <scene sceneID="ucQ-ie-4Lh">
@@ -86,18 +104,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="56H-Bp-0PE">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <items>
-                                    <navigationItem title="Location" id="euW-UE-LQ4">
-                                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="Gu2-L5-QUp">
-                                            <connections>
-                                                <action selector="cancelClick:" destination="ax6-lr-yei" id="EoI-s5-Mkg"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Rm3-CE-WPE">
                                 <rect key="frame" x="16" y="157" width="343" height="237"/>
                             </mapView>
@@ -122,17 +128,24 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Pvk-J9-jIa">
+                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="Gu2-L5-QUp">
+                            <connections>
+                                <action selector="cancelClick:" destination="ax6-lr-yei" id="EoI-s5-Mkg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="mapView" destination="Rm3-CE-WPE" id="Ko2-hA-ohJ"/>
                         <outlet property="nextButton" destination="y0I-xw-Fny" id="gvv-V9-VjJ"/>
                         <outlet property="placeText" destination="rcC-xv-2UI" id="u4X-2z-xVU"/>
-                        <segue destination="gYA-5R-n6H" kind="show" identifier="showURLScreen" id="pw3-4p-8r2"/>
+                        <segue destination="gYA-5R-n6H" kind="show" identifier="showURLScreen" id="ObL-Vw-KGJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0jg-vP-nfx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1470.5" y="22.5"/>
+            <point key="canvasLocation" x="1775.5" y="103.5"/>
         </scene>
         <!--ShareURL View Controller-->
         <scene sceneID="Imx-3O-oae">
@@ -143,7 +156,7 @@
                         <viewControllerLayoutGuide type="bottom" id="dra-E2-XrY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ZO7-MT-rhW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://www.formiik.com" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UEW-JP-boB">
@@ -151,18 +164,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dge-SY-cCN">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="MEg-Ak-KdX">
-                                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="kzW-eX-Yok">
-                                            <connections>
-                                                <action selector="cancelClick:" destination="gYA-5R-n6H" id="ynq-Ss-wMT"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPM-hB-8Ni">
                                 <rect key="frame" x="141" y="248" width="95" height="30"/>
                                 <state key="normal" title="Share an URL">
@@ -172,9 +173,25 @@
                                     <action selector="shareUrlClick:" destination="gYA-5R-n6H" eventType="touchUpInside" id="9uK-Wm-mz6"/>
                                 </connections>
                             </button>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dge-SY-cCN">
+                                <rect key="frame" x="0.0" y="80" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="MEg-Ak-KdX"/>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Cancel" id="kzW-eX-Yok">
+                            <connections>
+                                <action selector="cancelClick:" destination="gYA-5R-n6H" id="ynq-Ss-wMT"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="iv7-l7-wcr"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="urlText" destination="UEW-JP-boB" id="A0H-xo-g0q"/>
@@ -182,7 +199,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AWr-jo-tIv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1906.5" y="22.5"/>
+            <point key="canvasLocation" x="2222.5" y="45.5"/>
         </scene>
         <!--Item 1-->
         <scene sceneID="pcH-db-phz">
@@ -206,7 +223,11 @@
                                             <action selector="addClick:" destination="tEd-gr-LlK" id="CKg-v0-hjB"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Ref" id="lED-CX-TlN"/>
+                                    <barButtonItem title="Ref" id="lED-CX-TlN">
+                                        <connections>
+                                            <action selector="refreshClick:" destination="tEd-gr-LlK" id="kEK-Ii-SYd"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="8U4-5M-qMH">
@@ -253,7 +274,7 @@
                     <tabBarItem key="tabBarItem" title="Item 1" id="wfi-cs-zFW"/>
                     <connections>
                         <outlet property="mapView" destination="8U4-5M-qMH" id="w6i-zp-JSe"/>
-                        <segue destination="ax6-lr-yei" kind="presentation" identifier="showAddLocation" modalPresentationStyle="pageSheet" id="yE1-ak-sHt"/>
+                        <segue destination="NAn-sr-AhY" kind="presentation" identifier="showAddLocation" modalPresentationStyle="pageSheet" modalTransitionStyle="coverVertical" id="g63-Gd-qaX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kSb-2z-x2Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -333,4 +354,7 @@
             <point key="canvasLocation" x="-387.5" y="-303.5"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="g63-Gd-qaX"/>
+    </inferredMetricsTieBreakers>
 </document>

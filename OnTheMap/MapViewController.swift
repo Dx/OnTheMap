@@ -18,8 +18,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         mapView.delegate = self
-
-        
+    }
+    
+    func refresh() {
         let parseClient = ParseAPIClient()
         parseClient.getLocationsFromParse() { result, error in
             if let error = error {
@@ -31,6 +32,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.reloadPins()
             }
         }
+
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -40,6 +42,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBAction func addClick(sender: AnyObject) {
 
         confirmToAdd()
+    }
+    
+    @IBAction func refreshClick(sender: AnyObject) {
+        refresh()
     }
     
     func confirmToAdd() {

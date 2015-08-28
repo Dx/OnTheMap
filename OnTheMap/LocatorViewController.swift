@@ -46,11 +46,12 @@ class LocatorViewController: UIViewController {
         })
     }
     @IBAction func cancelClick(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
     @IBAction func clickNext(sender: AnyObject) {
 
         self.performSegueWithIdentifier("showURLScreen", sender: nil)
+//        self.navigationController?.pushViewController(ShareURLViewController(), animated: true)
 
     }
 }
