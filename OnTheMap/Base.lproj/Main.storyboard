@@ -173,22 +173,10 @@
                                     <action selector="shareUrlClick:" destination="gYA-5R-n6H" eventType="touchUpInside" id="9uK-Wm-mz6"/>
                                 </connections>
                             </button>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dge-SY-cCN">
-                                <rect key="frame" x="0.0" y="80" width="375" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="MEg-Ak-KdX"/>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Cancel" id="kzW-eX-Yok">
-                            <connections>
-                                <action selector="cancelClick:" destination="gYA-5R-n6H" id="ynq-Ss-wMT"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="iv7-l7-wcr"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -355,6 +343,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="g63-Gd-qaX"/>
+        <segue reference="nVZ-iI-cmf"/>
     </inferredMetricsTieBreakers>
 </document>

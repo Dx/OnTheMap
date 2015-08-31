@@ -12,9 +12,11 @@ import MapKit
 class LocatorViewController: UIViewController {
 
     @IBOutlet weak var placeText: UITextField!
+    
     @IBOutlet weak var mapView: MKMapView!
     
     @IBOutlet weak var nextButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
@@ -45,9 +47,11 @@ class LocatorViewController: UIViewController {
             }
         })
     }
+    
     @IBAction func cancelClick(sender: AnyObject) {
         self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
+    
     @IBAction func clickNext(sender: AnyObject) {
 
         self.performSegueWithIdentifier("showURLScreen", sender: nil)

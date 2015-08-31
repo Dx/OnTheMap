@@ -12,12 +12,33 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    
     var points = [MapPointEntity]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "askForRefresh:", name: "askForRefresh", object: nil)
+        
+        refresh()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.reloadPins()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func addClick(sender: AnyObject) {
+        confirmToAdd()
+    }
+    
+    @IBAction func refreshClick(sender: AnyObject) {
+        refresh()
     }
     
     func refresh() {
@@ -28,50 +49,61 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
             else {
                 self.points = result!
-                
-                self.reloadPins()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.reloadPins()
+                }
             }
         }
-
+        
     }
     
-    override func viewDidAppear(animated: Bool) {
-        self.reloadPins()
-    }
-    
-    @IBAction func addClick(sender: AnyObject) {
-
-        confirmToAdd()
-    }
-    
-    @IBAction func refreshClick(sender: AnyObject) {
+    func askForRefresh (notification: NSNotification) {
         refresh()
     }
     
     func confirmToAdd() {
-        let parseClient = ParseAPIClient()
         
-        let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
         
-        parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
-            if let error = error {
-                self.performSegueWithIdentifier("showAddLocation", sender: self)
-            } else {
-                if let point = result {
-                    var alert = UIAlertController(title: "Location found for \(point.firstName) \(point.lastName)", message: "Would you like to update your data?", preferredStyle: UIAlertControllerStyle.Alert)
-                    
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+        if appDelegate.alreadyHasPosition {
+            showAlertToUpdatePosition()
+        } else {
+            let parseClient = ParseAPIClient()
+            
+            let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
+            
+            parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
+                if let error = error {
+                    self.performSegueWithIdentifier("showAddLocation", sender: self)
+                } else {
+                    if let point = result {
+                        (UIApplication.sharedApplication().delegate as! AppDelegate).lastUserMapPoint = point
+                        (UIApplication.sharedApplication().delegate as! AppDelegate).alreadyHasPosition = true
+                        self.showAlertToUpdatePosition()
+                    } else {
                         self.performSegueWithIdentifier("showAddLocation", sender: self)
-                    }))
-                    
-                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-                    
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    }
                 }
-            }
-        })
+            })
+        }
     }
-
+    
+    func showAlertToUpdatePosition() {
+        
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        
+        var alert = UIAlertController(title: "Location found for \(appDelegate.lastUserMapPoint!.firstName) \(appDelegate.lastUserMapPoint!.lastName)", message: "Would you like to update your data?", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+            self.performSegueWithIdentifier("showAddLocation", sender: self)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         
@@ -94,7 +126,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
-        
         if control == annotationView.rightCalloutAccessoryView {
             let app = UIApplication.sharedApplication()
             let url = NSURL(string: annotationView.annotation.subtitle!)
@@ -105,6 +136,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     private func reloadPins() {
+        
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        
         var annotations = [MKPointAnnotation]()
         
         for point in self.points {
@@ -122,12 +156,4 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         self.mapView.addAnnotations(annotations)
     }
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
 }

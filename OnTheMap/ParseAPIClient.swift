@@ -10,13 +10,12 @@ import Foundation
 
 class ParseAPIClient : NSObject {
     
-    let baseURL = "https://api.parse.com/1/classes/StudentLocation"
-    
+    let baseURL = "https://api.parse.com/1/classes/StudentLocation"    
 
     func getLocationsFromParse(
         completionHandler: (points:[MapPointEntity]?, error: NSError?) -> Void) -> Void {
 
-        let parameters = "?limit=100&order=updatedAt"
+        let parameters = "?limit=1000&order=-updatedAt"
         let url = NSURL(string:baseURL + parameters)
         let request = NSMutableURLRequest(URL: url!)
             
@@ -80,7 +79,13 @@ class ParseAPIClient : NSObject {
                         }
                     }
                     
-                    completionHandler(point: points[0], error: nil)
+                    if points.count > 0 {
+                        completionHandler(point: points[0], error: nil)
+                    }
+                    else {
+                        completionHandler(point: nil, error: nil)
+                    }
+                    
                 }
             }
             

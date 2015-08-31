@@ -10,8 +10,7 @@ import Foundation
 
 class UdacityAPIClient : NSObject {
     
-    var udacitySession = UdacitySessionEntity()
-    
+    var udacitySession = UdacitySessionEntity()    
     
     func createSession (userName: String, parameterPassword: String) {
         

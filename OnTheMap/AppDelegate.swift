@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var session: UdacitySessionEntity?
     var position: PositionEntity?
+    var alreadyHasPosition = false
+    var lastUserMapPoint : MapPointEntity?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.

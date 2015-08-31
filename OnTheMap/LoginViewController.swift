@@ -30,7 +30,6 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
     @IBAction func loginClic(sender: AnyObject) {
         
         let user = usernameText.text
