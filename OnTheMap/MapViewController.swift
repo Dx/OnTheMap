@@ -41,6 +41,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         refresh()
     }
     
+    @IBAction func logoutClick(sender: AnyObject) {
+        let udacityClient = UdacityAPIClient()
+            
+        udacityClient.logout() { result, error in
+            if let error = error {
+                println("Could not logout")
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
+            }
+        }
+    }
+    
     func refresh() {
         let parseClient = ParseAPIClient()
         parseClient.getLocationsFromParse() { result, error in

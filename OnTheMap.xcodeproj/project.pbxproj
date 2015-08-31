@@ -11,6 +11,8 @@
 		E17131E51B7DC18600C80BED /* LocatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E41B7DC18600C80BED /* LocatorViewController.swift */; };
 		E17131E71B7DC75100C80BED /* ShareURLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E61B7DC75100C80BED /* ShareURLViewController.swift */; };
 		E17131E91B7DC98200C80BED /* PositionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E81B7DC98200C80BED /* PositionEntity.swift */; };
+		E17291DD1B940513005269A1 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17291DC1B940513005269A1 /* FBSDKCoreKit.framework */; };
+		E17291E01B9406E9005269A1 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17291DF1B9406E9005269A1 /* FBSDKLoginKit.framework */; };
 		E1DA35EB1B5F62F800193B37 /* ParseAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DA35EA1B5F62F800193B37 /* ParseAPIClient.swift */; };
 		E1DA35ED1B5F653E00193B37 /* MapPointEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DA35EC1B5F653E00193B37 /* MapPointEntity.swift */; };
 		E1DBCDB71B764C9700CDDFB2 /* UdacitySessionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DBCDB61B764C9700CDDFB2 /* UdacitySessionEntity.swift */; };
@@ -41,6 +43,8 @@
 		E17131E41B7DC18600C80BED /* LocatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocatorViewController.swift; sourceTree = "<group>"; };
 		E17131E61B7DC75100C80BED /* ShareURLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareURLViewController.swift; sourceTree = "<group>"; };
 		E17131E81B7DC98200C80BED /* PositionEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionEntity.swift; sourceTree = "<group>"; };
+		E17291DC1B940513005269A1 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		E17291DF1B9406E9005269A1 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		E1DA35EA1B5F62F800193B37 /* ParseAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseAPIClient.swift; sourceTree = "<group>"; };
 		E1DA35EC1B5F653E00193B37 /* MapPointEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPointEntity.swift; sourceTree = "<group>"; };
 		E1DBCDB61B764C9700CDDFB2 /* UdacitySessionEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacitySessionEntity.swift; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1E7F14E1B5E195C00C846DA /* MapKit.framework in Frameworks */,
+				E17291DD1B940513005269A1 /* FBSDKCoreKit.framework in Frameworks */,
+				E17291E01B9406E9005269A1 /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +85,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E17291DE1B940520005269A1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E17291DF1B9406E9005269A1 /* FBSDKLoginKit.framework */,
+				E17291DC1B940513005269A1 /* FBSDKCoreKit.framework */,
+				E1E7F14D1B5E195C00C846DA /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E1DA35EE1B5F654700193B37 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -93,7 +109,7 @@
 		E1E7F1181B5E101E00C846DA = {
 			isa = PBXGroup;
 			children = (
-				E1E7F14D1B5E195C00C846DA /* MapKit.framework */,
+				E17291DE1B940520005269A1 /* Frameworks */,
 				E1E7F1231B5E101E00C846DA /* OnTheMap */,
 				E1E7F1391B5E101E00C846DA /* OnTheMapTests */,
 				E1E7F1221B5E101E00C846DA /* Products */,
@@ -417,6 +433,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -427,6 +447,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

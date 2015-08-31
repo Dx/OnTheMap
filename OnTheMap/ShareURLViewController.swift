@@ -35,10 +35,6 @@ class ShareURLViewController: UIViewController {
         self.navigationController?.view.addSubview(toolbar)
     }
     
-    func cancelClick() {
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     @IBAction func shareUrlClick(sender: AnyObject) {
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
@@ -77,5 +73,9 @@ class ShareURLViewController: UIViewController {
                 NSNotificationCenter.defaultCenter().postNotificationName("askForRefresh", object: nil)
             }
         }
+    }
+    
+    func cancelClick() {
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }

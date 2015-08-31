@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
     @IBOutlet weak var usernameText: UITextField!
     
@@ -19,15 +21,41 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccess:", name: "loginSuccessNotification", object: nil)
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginError:", name: "loginErrorNotification", object: nil)
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginConnectionError:", name: "loginConnectionErrorNotification", object: nil)
+        
+        let loginButton = FBSDKLoginButton()
+        loginButton.center = self.view.center;
+        loginButton.delegate = self
+        self.view.addSubview(loginButton)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        if let fbToken = result {
+        
+            let udacityClient = UdacityAPIClient()
+        
+            udacityClient.loginWithFacebook(fbToken.token!.tokenString) { result, error in
+                if error != nil {
+                    var alert = UIAlertController(title: "Facebook login failed", message: "There was an error on Facebook login, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                        // Do nothing
+                    }))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                } else {
+                    println("waiting for notification")
+                }
+            }
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        
     }
 
     @IBAction func loginClic(sender: AnyObject) {

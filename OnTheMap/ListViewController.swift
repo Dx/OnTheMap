@@ -83,6 +83,21 @@ class ListViewController: UITableViewController {
         self.navigationController!.view.addSubview(toolbar)
     }
     
+    func logout() {
+        let udacityClient = UdacityAPIClient()
+        
+        udacityClient.logout() { result, error in
+            if let error = error {
+                println("Could not logout")
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
+            }
+        }
+    }
+    
     func askForRefresh (notification: NSNotification) {
         refresh()
     }

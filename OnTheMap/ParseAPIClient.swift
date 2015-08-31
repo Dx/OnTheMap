@@ -23,7 +23,7 @@ class ParseAPIClient : NSObject {
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil { // Handle error...
+            if error != nil {
                 let newError = NSError(domain: "ParseApi", code: 1, userInfo: nil)
                 completionHandler(points: nil, error: newError)
             }
