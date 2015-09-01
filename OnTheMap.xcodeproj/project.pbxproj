@@ -132,7 +132,6 @@
 				E1E7F14A1B5E189D00C846DA /* Models */,
 				E1E7F1491B5E188D00C846DA /* Views */,
 				E1E7F1461B5E183800C846DA /* Controllers */,
-				E1E7F12D1B5E101E00C846DA /* Images.xcassets */,
 				E1E7F12F1B5E101E00C846DA /* LaunchScreen.xib */,
 				E1E7F1241B5E101E00C846DA /* Supporting Files */,
 			);
@@ -179,6 +178,7 @@
 		E1E7F1491B5E188D00C846DA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E1E7F12D1B5E101E00C846DA /* Images.xcassets */,
 				E1E7F12A1B5E101E00C846DA /* Main.storyboard */,
 			);
 			name = Views;

@@ -27,6 +27,7 @@ class ShareURLViewController: UIViewController {
         
         var space = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         var logoutButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancelClick")
+        logoutButton.tintColor = UIColor.orangeColor()
         
         var buttons = [space, logoutButton]
         
@@ -36,13 +37,45 @@ class ShareURLViewController: UIViewController {
     }
     
     @IBAction func shareUrlClick(sender: AnyObject) {
-        let object = UIApplication.sharedApplication().delegate
-        let appDelegate = object as! AppDelegate
         
-        if appDelegate.alreadyHasPosition {
-            puttingPosition()
+        if self.validateURL(urlText.text) {
+            let object = UIApplication.sharedApplication().delegate
+            let appDelegate = object as! AppDelegate
+            
+            if appDelegate.alreadyHasPosition {
+                puttingPosition()
+            } else {
+                postingPosition()
+            }
         } else {
-            postingPosition()
+            self.showURLNotValid()
+        }
+    }
+    
+    func showURLNotValid() {
+        var alert = UIAlertController(title: "Url validation", message: "Not a valid URL. It has to be like http://www.udacity.com", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func validateURL(url: String) -> Bool {
+        
+        let regexString = "^http://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"
+        
+        let options :NSStringCompareOptions = .RegularExpressionSearch | .CaseInsensitiveSearch
+        
+        if let range = url.rangeOfString(regexString, options:options) {
+            let validUrl = url.substringWithRange(range)
+            println("validUrl: \(validUrl)")
+            return true
+        }
+        else {
+            print("Not valid url")
+            return false
         }
     }
     

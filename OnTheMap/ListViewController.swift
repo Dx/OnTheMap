@@ -61,6 +61,7 @@ class ListViewController: UITableViewController {
     
     func setUI() {
         var toolbar = UIToolbar()
+        toolbar.tintColor = UIColor.orangeColor()
         toolbar.barStyle = UIBarStyle.Default
         toolbar.sizeToFit()
         let height = toolbar.frame.size.height
@@ -72,8 +73,11 @@ class ListViewController: UITableViewController {
         toolbar.frame = rectArea
         
         var logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logout")
+        logoutButton.image = UIImage(named: "Logout")
         var addButton = UIBarButtonItem(title: "Add", style: .Plain, target: self, action: "add")
+        addButton.image = UIImage(named: "New")
         var refreshButton = UIBarButtonItem(title: "Ref", style: .Plain, target: self, action: "refresh")
+        refreshButton.image = UIImage(named: "Refresh")
         var space = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         
         var buttons = [logoutButton, space, addButton, refreshButton]
