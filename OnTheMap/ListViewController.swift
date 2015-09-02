@@ -91,7 +91,7 @@ class ListViewController: UITableViewController {
         let udacityClient = UdacityAPIClient()
         
         udacityClient.logout() { result, error in
-            if let error = error {
+            if error != nil {
                 println("Could not logout")
             }
             else {
@@ -110,7 +110,7 @@ class ListViewController: UITableViewController {
         
         let parseClient = ParseAPIClient()
         parseClient.getLocationsFromParse() { result, error in
-            if let error = error {
+            if error != nil {
                 println("Error trying to get student locations")
             }
             else {
@@ -148,7 +148,7 @@ class ListViewController: UITableViewController {
             let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
             
             parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
-                if let error = error {
+                if error != nil {
                     self.performSegueWithIdentifier("showLocationFromTable", sender: self)
                 } else {
                     if let point = result {

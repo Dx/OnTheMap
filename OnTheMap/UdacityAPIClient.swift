@@ -12,7 +12,7 @@ class UdacityAPIClient : NSObject {
     
     var udacitySession = UdacitySessionEntity()    
     
-    func createSession (userName: String, parameterPassword: String) {
+    func createSession (userName: String, parameterPassword: String, completionHandler: (user:UdacitySessionEntity?, error: NSError?) -> Void) {
         
         var url_ToFind = "https://www.udacity.com/api/session"        
         
@@ -26,8 +26,8 @@ class UdacityAPIClient : NSObject {
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             if error != nil {
-                NSNotificationCenter.defaultCenter().postNotificationName("loginConnectionErrorNotification", object: nil)
-                return
+                let newError = NSError(domain: "UdacityApi", code: 1, userInfo: nil)
+                completionHandler(user: nil, error: newError)
             }
             if let unwrappedData = data {
                 let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
@@ -38,8 +38,8 @@ class UdacityAPIClient : NSObject {
                 
                 if let status = parsedResult["status"] as? Int {
                     if (status == 403) {
-                        NSNotificationCenter.defaultCenter().postNotificationName("loginErrorNotification", object: nil)
-                        return
+                        let newError = NSError(domain: "UdacityApi", code: 403, userInfo: nil)
+                        completionHandler(user: nil, error: newError)
                     }
                 }
                 
@@ -67,11 +67,7 @@ class UdacityAPIClient : NSObject {
                 sessionObject.sessionId = sessionId
                 sessionObject.expirationDate = sessionExpiration
                 
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.udacitySession = sessionObject
-                }
-                
-                NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessNotification", object: sessionObject)
+                completionHandler(user: sessionObject, error: nil)
             }
         }
         
@@ -116,7 +112,7 @@ class UdacityAPIClient : NSObject {
     
     func loginWithFacebook(
             facebookMobile: String,
-            completionHandler: (result:NSString?, error: NSError?) -> Void) -> Void {
+            completionHandler: (user:UdacitySessionEntity?, error: NSError?) -> Void) -> Void {
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
                 
         request.HTTPMethod = "POST"
@@ -128,8 +124,8 @@ class UdacityAPIClient : NSObject {
 
         let task = session.dataTaskWithRequest(request) { data, response, error in
             if error != nil {
-                NSNotificationCenter.defaultCenter().postNotificationName("loginConnectionErrorNotification", object: nil)
-                return
+                let newError = NSError(domain: "UdacityApi", code: 1, userInfo: nil)
+                completionHandler(user: nil, error: newError)
             }
             if let unwrappedData = data {
                 let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
@@ -140,8 +136,8 @@ class UdacityAPIClient : NSObject {
                 
                 if let status = parsedResult["status"] as? Int {
                     if (status == 403) {
-                        NSNotificationCenter.defaultCenter().postNotificationName("loginErrorNotification", object: nil)
-                        return
+                        let newError = NSError(domain: "UdacityApi", code: 403, userInfo: nil)
+                        completionHandler(user: nil, error: newError)
                     }
                 }
                 
@@ -169,11 +165,7 @@ class UdacityAPIClient : NSObject {
                 sessionObject.sessionId = sessionId
                 sessionObject.expirationDate = sessionExpiration
                 
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.udacitySession = sessionObject
-                }
-                
-                NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessNotification", object: sessionObject)
+                completionHandler(user: sessionObject, error: nil)
             }
 
         }

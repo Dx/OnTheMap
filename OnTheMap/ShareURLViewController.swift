@@ -85,7 +85,7 @@ class ShareURLViewController: UIViewController {
         let appDelegate = object as! AppDelegate
         
         parseClient.postingLocation(appDelegate.session!, mediaURL: urlText.text, mapString: appDelegate.position!.mapString!, latitude: appDelegate.position!.latitude!, longitude: appDelegate.position!.longitude!) { result, error in
-            if let error = error {
+            if error != nil {
                 println("Error trying to get student locations")
             } else {
                 self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
@@ -99,7 +99,7 @@ class ShareURLViewController: UIViewController {
         let appDelegate = object as! AppDelegate
         
         parseClient.puttingLocation(appDelegate.lastUserMapPoint!.objectId, session: appDelegate.session!, mediaURL: urlText.text, mapString: appDelegate.position!.mapString!, latitude: appDelegate.position!.latitude!, longitude: appDelegate.position!.longitude!) { result, error in
-            if let error = error {
+            if error != nil {
                 println("Error trying to get student locations")
             } else {
                 self.navigationController?.dismissViewControllerAnimated(true, completion: nil)

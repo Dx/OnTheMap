@@ -45,7 +45,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let udacityClient = UdacityAPIClient()
             
         udacityClient.logout() { result, error in
-            if let error = error {
+            if error != nil {
                 println("Could not logout")
             }
             else {
@@ -59,7 +59,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func refresh() {
         let parseClient = ParseAPIClient()
         parseClient.getLocationsFromParse() { result, error in
-            if let error = error {
+            if error != nil {
                 println("Error trying to get student locations")
             }
             else {
@@ -89,7 +89,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
             
             parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
-                if let error = error {
+                if error != nil {
                     self.performSegueWithIdentifier("showAddLocation", sender: self)
                 } else {
                     if let point = result {
