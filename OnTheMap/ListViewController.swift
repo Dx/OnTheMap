@@ -96,17 +96,31 @@ class ListViewController: UITableViewController {
         toolbar.setItems(buttons, animated: true)
         
         self.navigationController!.view.addSubview(toolbar)
+        
+        addActivityIndicator()
     }
     
     func logout() {
         let udacityClient = UdacityAPIClient()
         
+        self.myActivityIndicator.startAnimating()
         udacityClient.logout() { result, error in
             if error != nil {
-                println("Could not logout")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.myActivityIndicator.stopAnimating()
+                    
+                    var alert = UIAlertController(title: "Udacity could not logout", message: "There was an error in logout, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!)    -> Void in
+                        // Do nothing
+                    }))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+
             }
             else {
                 dispatch_async(dispatch_get_main_queue()) {
+                    self.myActivityIndicator.stopAnimating()
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
@@ -123,21 +137,21 @@ class ListViewController: UITableViewController {
         parseClient.getLocationsFromParse() { result, error in
             if let error = error {
                 if error.code == 1 {
-                    dispatch_async(dispatch_get_main_queue(), {
+                    dispatch_async(dispatch_get_main_queue()) {
                         var alert = UIAlertController(title: "Connection failed", message: "There was an error on connecting to Parse API, try again", preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
                             // Do nothing
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
-                    })
+                    }
                 } else {
-                    dispatch_async(dispatch_get_main_queue(), {
+                    dispatch_async(dispatch_get_main_queue()) {
                         var alert = UIAlertController(title: "Data error", message: "There was an error on data. Try again", preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
                             // Do nothing
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
-                    })
+                    }
                 }
             }
             else {
@@ -172,23 +186,23 @@ class ListViewController: UITableViewController {
             self.myActivityIndicator.startAnimating()
             parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
                 if let error = error {
-                    dispatch_async(dispatch_get_main_queue(), {
+                    dispatch_async(dispatch_get_main_queue()) {
                         self.myActivityIndicator.stopAnimating()
                         self.performSegueWithIdentifier("showLocationFromTable", sender: self)
-                    })
+                    }
                 } else {
                     if let point = result {
-                        dispatch_async(dispatch_get_main_queue(), {
+                        dispatch_async(dispatch_get_main_queue()) {
                             self.myActivityIndicator.stopAnimating()
                             (UIApplication.sharedApplication().delegate as! AppDelegate).lastUserMapPoint = point
                             (UIApplication.sharedApplication().delegate as! AppDelegate).alreadyHasPosition = true
                             self.showAlertToUpdatePosition()
-                        })
+                        }
                     } else {
-                        dispatch_async(dispatch_get_main_queue(), {
+                        dispatch_async(dispatch_get_main_queue()) {
                             self.myActivityIndicator.stopAnimating()
                             self.performSegueWithIdentifier("showLocationFromTable", sender: self)
-                        })
+                        }
                     }
                 }
             })
