@@ -21,6 +21,41 @@ class ShareURLViewController: UIViewController {
     
     override func viewDidLoad() {
         
+        setToolbar()
+        
+        addActivityIndicator()
+        
+        setPlacemark()
+    }
+    
+    @IBAction func shareUrlClick(sender: AnyObject) {
+        
+        if self.validateURL(urlText.text) {
+            let object = UIApplication.sharedApplication().delegate
+            let appDelegate = object as! AppDelegate
+            
+            if appDelegate.alreadyHasPosition {
+                puttingPosition()
+            } else {
+                postingPosition()
+            }
+        } else {
+            self.showURLNotValid()
+        }
+    }
+    
+    func setPlacemark() {
+        if let placemark = placemark {
+            self.mapView.addAnnotation(placemark)
+            
+            let center = CLLocationCoordinate2D(latitude: placemark.coordinate.latitude, longitude: placemark.coordinate.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            
+            self.mapView.setRegion(region, animated: true)
+        }
+    }
+    
+    func setToolbar() {
         var toolbar = UIToolbar()
         toolbar.barStyle = UIBarStyle.Default
         toolbar.sizeToFit()
@@ -40,32 +75,7 @@ class ShareURLViewController: UIViewController {
         
         toolbar.setItems(buttons, animated: true)
         
-        if let placemark = placemark {
-            self.mapView.addAnnotation(placemark)
-            
-            let center = CLLocationCoordinate2D(latitude: placemark.coordinate.latitude, longitude: placemark.coordinate.longitude)
-            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-            
-            self.mapView.setRegion(region, animated: true)
-        }
-        
         self.navigationController?.view.addSubview(toolbar)
-    }
-    
-    @IBAction func shareUrlClick(sender: AnyObject) {
-        
-        if self.validateURL(urlText.text) {
-            let object = UIApplication.sharedApplication().delegate
-            let appDelegate = object as! AppDelegate
-            
-            if appDelegate.alreadyHasPosition {
-                puttingPosition()
-            } else {
-                postingPosition()
-            }
-        } else {
-            self.showURLNotValid()
-        }
     }
     
     func addActivityIndicator() {
@@ -109,11 +119,25 @@ class ShareURLViewController: UIViewController {
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
         
+        self.myActivityIndicator.startAnimating()
         parseClient.postingLocation(appDelegate.session!, mediaURL: urlText.text, mapString: appDelegate.position!.mapString!, latitude: appDelegate.position!.latitude!, longitude: appDelegate.position!.longitude!) { result, error in
             if error != nil {
-                println("Error trying to get student locations")
+                println("Error posting position")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.myActivityIndicator.stopAnimating()
+                    var alert = UIAlertController(title: "Posting position failed", message: "There was an error posting the url and location, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                        // Do nothing
+                    }))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
             } else {
-                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.myActivityIndicator.stopAnimating()
+
+                    self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName("askForRefresh", object: nil)
+                }
             }
         }
     }
@@ -123,12 +147,24 @@ class ShareURLViewController: UIViewController {
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
         
+        self.myActivityIndicator.startAnimating()
         parseClient.puttingLocation(appDelegate.lastUserMapPoint!.objectId, session: appDelegate.session!, mediaURL: urlText.text, mapString: appDelegate.position!.mapString!, latitude: appDelegate.position!.latitude!, longitude: appDelegate.position!.longitude!) { result, error in
             if error != nil {
-                println("Error trying to get student locations")
+                println("Error putting position")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.myActivityIndicator.stopAnimating()
+                    var alert = UIAlertController(title: "Posting position failed", message: "There was an error posting the url and location, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                        // Do nothing
+                    }))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
             } else {
-                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
-                NSNotificationCenter.defaultCenter().postNotificationName("askForRefresh", object: nil)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.myActivityIndicator.stopAnimating()
+                    self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName("askForRefresh", object: nil)
+                }
             }
         }
     }

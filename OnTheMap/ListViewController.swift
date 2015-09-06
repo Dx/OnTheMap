@@ -159,11 +159,6 @@ class ListViewController: UITableViewController {
     }
     
     func add() {
-        confirmToAdd()
-    }
-    
-    func confirmToAdd() {
-        
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
         
@@ -174,16 +169,26 @@ class ListViewController: UITableViewController {
             
             let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
             
+            self.myActivityIndicator.startAnimating()
             parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
-                if error != nil {
-                    self.performSegueWithIdentifier("showLocationFromTable", sender: self)
+                if let error = error {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.myActivityIndicator.stopAnimating()
+                        self.performSegueWithIdentifier("showLocationFromTable", sender: self)
+                    })
                 } else {
                     if let point = result {
-                        (UIApplication.sharedApplication().delegate as! AppDelegate).lastUserMapPoint = point
-                        (UIApplication.sharedApplication().delegate as! AppDelegate).alreadyHasPosition = true
-                        self.showAlertToUpdatePosition()
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.myActivityIndicator.stopAnimating()
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).lastUserMapPoint = point
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).alreadyHasPosition = true
+                            self.showAlertToUpdatePosition()
+                        })
                     } else {
-                        self.performSegueWithIdentifier("showLocationFromTable", sender: self)
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.myActivityIndicator.stopAnimating()
+                            self.performSegueWithIdentifier("showLocationFromTable", sender: self)
+                        })
                     }
                 }
             })

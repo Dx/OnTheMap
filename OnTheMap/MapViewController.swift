@@ -37,7 +37,40 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func addClick(sender: AnyObject) {
-        confirmToAdd()
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        
+        if appDelegate.alreadyHasPosition {
+            showAlertToUpdatePosition()
+        } else {
+            let parseClient = ParseAPIClient()
+            
+            let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
+            
+            self.myActivityIndicator.startAnimating()
+            parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
+                if let error = error {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.myActivityIndicator.stopAnimating()
+                        self.performSegueWithIdentifier("showAddLocation", sender: self)
+                    })
+                } else {
+                    if let point = result {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.myActivityIndicator.stopAnimating()
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).lastUserMapPoint = point
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).alreadyHasPosition = true
+                            self.showAlertToUpdatePosition()
+                        })
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.myActivityIndicator.stopAnimating()
+                            self.performSegueWithIdentifier("showAddLocation", sender: self)
+                        })
+                    }
+                }
+            })
+        }
     }
     
     @IBAction func refreshClick(sender: AnyObject) {
@@ -105,34 +138,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func askForRefresh (notification: NSNotification) {
         refresh()
-    }
-    
-    func confirmToAdd() {
-        
-        let object = UIApplication.sharedApplication().delegate
-        let appDelegate = object as! AppDelegate
-        
-        if appDelegate.alreadyHasPosition {
-            showAlertToUpdatePosition()
-        } else {
-            let parseClient = ParseAPIClient()
-            
-            let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
-            
-            parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
-                if error != nil {
-                    self.performSegueWithIdentifier("showAddLocation", sender: self)
-                } else {
-                    if let point = result {
-                        (UIApplication.sharedApplication().delegate as! AppDelegate).lastUserMapPoint = point
-                        (UIApplication.sharedApplication().delegate as! AppDelegate).alreadyHasPosition = true
-                        self.showAlertToUpdatePosition()
-                    } else {
-                        self.performSegueWithIdentifier("showAddLocation", sender: self)
-                    }
-                }
-            })
-        }
     }
     
     func showAlertToUpdatePosition() {
