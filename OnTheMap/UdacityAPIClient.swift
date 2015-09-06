@@ -28,46 +28,52 @@ class UdacityAPIClient : NSObject {
             if error != nil {
                 let newError = NSError(domain: "UdacityApi", code: 1, userInfo: nil)
                 completionHandler(user: nil, error: newError)
-            }
-            if let unwrappedData = data {
-                let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
-                println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
+            } else {
+                if let unwrappedData = data {
+                    let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
+                    println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
                 
-                var parsingError: NSError? = nil
-                let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
-                
-                if let status = parsedResult["status"] as? Int {
-                    if (status == 403) {
-                        let newError = NSError(domain: "UdacityApi", code: 403, userInfo: nil)
-                        completionHandler(user: nil, error: newError)
+                    var parsingError: NSError? = nil
+                    let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments,     error: &parsingError) as! NSDictionary
+                    
+                    if let error = parsingError {
+                        completionHandler(user: nil, error: error)
+                    } else {
+                        if let status = parsedResult["status"] as? Int {
+                            if (status == 403) {
+                                let newError = NSError(domain: "UdacityApi", code: 403, userInfo: nil)
+                                completionHandler(user: nil, error: newError)
+                                return
+                            }
+                        }
+                        
+                        var keySession = ""
+                        var sessionId = ""
+                        var sessionExpiration = ""
+                        
+                        if let account = parsedResult["account"] as? NSDictionary {
+                            if let keySessionUW = account["key"] as? String {
+                                keySession = keySessionUW
+                            }
+                        }
+                        
+                        if let session = parsedResult["session"] as? NSDictionary {
+                            if let sessionIdUW = session["id"] as? String {
+                                sessionId = sessionIdUW
+                            }
+                            if let sessionExpirationUW = session["expiration"] as? String {
+                                sessionExpiration = sessionExpirationUW
+                            }
+                        }
+                        
+                        let sessionObject = UdacitySessionEntity()
+                        sessionObject.key = keySession
+                        sessionObject.sessionId = sessionId
+                        sessionObject.expirationDate = sessionExpiration
+                        
+                        completionHandler(user: sessionObject, error: nil)
                     }
                 }
-                
-                var keySession = ""
-                var sessionId = ""
-                var sessionExpiration = ""
-                
-                if let account = parsedResult["account"] as? NSDictionary {
-                    if let keySessionUW = account["key"] as? String {
-                        keySession = keySessionUW
-                    }
-                }
-                
-                if let session = parsedResult["session"] as? NSDictionary {
-                    if let sessionIdUW = session["id"] as? String {
-                        sessionId = sessionIdUW
-                    }
-                    if let sessionExpirationUW = session["expiration"] as? String {
-                        sessionExpiration = sessionExpirationUW
-                    }
-                }
-                
-                let sessionObject = UdacitySessionEntity()
-                sessionObject.key = keySession
-                sessionObject.sessionId = sessionId
-                sessionObject.expirationDate = sessionExpiration
-                
-                completionHandler(user: sessionObject, error: nil)
             }
         }
         
@@ -84,26 +90,32 @@ class UdacityAPIClient : NSObject {
             if error != nil {
                 let newError = NSError(domain: "UdacityApi", code: 1, userInfo: nil)
                 completionHandler(user: nil, error: newError)
-            }
-            if let unwrappedData = data {
-                let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
-                println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
+            } else {
+                if let unwrappedData = data {
+                    let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
+                    println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
                 
-                var parsingError: NSError? = nil
-                let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
+                    var parsingError: NSError? = nil
+                    let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
+                    
+                    if let error = parsingError {
+                        completionHandler(user: nil, error: error)
+                    } else {
                 
-                let userData = UserData(firstNameP: "a", lastNameP: "b")
+                        let userData = UserData(firstNameP: "a", lastNameP: "b")
                 
-                if let user = parsedResult["user"] as? NSDictionary {
-                    if let lastName = user["last_name"] as? String {
-                        if let firstName = user["first_name"] as? String {
-                            userData.firstName = firstName
-                            userData.lastName = lastName
+                        if let user = parsedResult["user"] as? NSDictionary {
+                            if let lastName = user["last_name"] as? String {
+                                if let firstName = user["first_name"] as? String {
+                                    userData.firstName = firstName
+                                    userData.lastName = lastName
+                                }
+                            }
                         }
+                
+                        completionHandler(user: userData, error: nil)
                     }
                 }
-                
-                completionHandler(user: userData, error: nil)
             }
         }
         
@@ -126,49 +138,54 @@ class UdacityAPIClient : NSObject {
             if error != nil {
                 let newError = NSError(domain: "UdacityApi", code: 1, userInfo: nil)
                 completionHandler(user: nil, error: newError)
+            } else {
+                if let unwrappedData = data {
+                    let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
+                    println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
+                
+                    var parsingError: NSError? = nil
+                    let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
+                    
+                    if let error = parsingError {
+                        completionHandler(user: nil, error: error)
+                    } else {
+                        if let status = parsedResult["status"] as? Int {
+                            if (status == 403) {
+                                let newError = NSError(domain: "UdacityApi", code: 403, userInfo: nil)
+                                completionHandler(user: nil, error: newError)
+                            }
+                        }
+                        
+                        var keySession = ""
+                        var sessionId = ""
+                        var sessionExpiration = ""
+                        
+                        if let account = parsedResult["account"] as? NSDictionary {
+                            if let keySessionUW = account["key"] as? String {
+                                keySession = keySessionUW
+                            }
+                        }
+                        
+                        if let session = parsedResult["session"] as? NSDictionary {
+                            if let sessionIdUW = session["id"] as? String {
+                                sessionId = sessionIdUW
+                            }
+                            if let sessionExpirationUW = session["expiration"] as? String {
+                                sessionExpiration = sessionExpirationUW
+                            }
+                        }
+                        
+                        let sessionObject = UdacitySessionEntity()
+                        sessionObject.key = keySession
+                        sessionObject.sessionId = sessionId
+                        sessionObject.expirationDate = sessionExpiration
+                        
+                        completionHandler(user: sessionObject, error: nil)
+                    }
+                }
             }
-            if let unwrappedData = data {
-                let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
-                println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
-                
-                var parsingError: NSError? = nil
-                let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
-                
-                if let status = parsedResult["status"] as? Int {
-                    if (status == 403) {
-                        let newError = NSError(domain: "UdacityApi", code: 403, userInfo: nil)
-                        completionHandler(user: nil, error: newError)
-                    }
-                }
-                
-                var keySession = ""
-                var sessionId = ""
-                var sessionExpiration = ""
-                
-                if let account = parsedResult["account"] as? NSDictionary {
-                    if let keySessionUW = account["key"] as? String {
-                        keySession = keySessionUW
-                    }
-                }
-                
-                if let session = parsedResult["session"] as? NSDictionary {
-                    if let sessionIdUW = session["id"] as? String {
-                        sessionId = sessionIdUW
-                    }
-                    if let sessionExpirationUW = session["expiration"] as? String {
-                        sessionExpiration = sessionExpirationUW
-                    }
-                }
-                
-                let sessionObject = UdacitySessionEntity()
-                sessionObject.key = keySession
-                sessionObject.sessionId = sessionId
-                sessionObject.expirationDate = sessionExpiration
-                
-                completionHandler(user: sessionObject, error: nil)
-            }
-
         }
+
         task.resume()
     }
     
@@ -192,11 +209,12 @@ class UdacityAPIClient : NSObject {
             if error != nil { // Handle error…
                 let newError = NSError(domain: "UdacityApi", code: 1, userInfo: nil)
                 completionHandler(result: nil, error: newError)
+            } else {
+                let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
+                let resultString = NSString(data: newData, encoding: NSUTF8StringEncoding)
+                println(resultString)
+                completionHandler(result: resultString, error: nil)
             }
-            let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
-            let resultString = NSString(data: newData, encoding: NSUTF8StringEncoding)
-            println(resultString)
-            completionHandler(result: resultString, error: nil)
         }
         
         task.resume()

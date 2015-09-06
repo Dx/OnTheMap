@@ -13,6 +13,8 @@ class ListViewController: UITableViewController {
     @IBOutlet weak var pointsTable: UITableView!
     
     var points: [MapPointEntity]!
+    
+    var myActivityIndicator:UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +59,15 @@ class ListViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func addActivityIndicator() {
+        self.myActivityIndicator = UIActivityIndicatorView(frame:CGRectMake(100, 100, 100, 100)) as UIActivityIndicatorView
+        
+        self.myActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        self.myActivityIndicator.center = self.view.center
+        
+        self.view.addSubview(myActivityIndicator)
     }
     
     func setUI() {
@@ -110,8 +121,24 @@ class ListViewController: UITableViewController {
         
         let parseClient = ParseAPIClient()
         parseClient.getLocationsFromParse() { result, error in
-            if error != nil {
-                println("Error trying to get student locations")
+            if let error = error {
+                if error.code == 1 {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        var alert = UIAlertController(title: "Connection failed", message: "There was an error on connecting to Parse API, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                            // Do nothing
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    })
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        var alert = UIAlertController(title: "Data error", message: "There was an error on data. Try again", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                            // Do nothing
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    })
+                }
             }
             else {
                 

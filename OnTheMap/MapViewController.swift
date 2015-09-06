@@ -12,6 +12,8 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+
+    var myActivityIndicator:UIActivityIndicatorView!
     
     var points = [MapPointEntity]()
     
@@ -21,6 +23,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "askForRefresh:", name: "askForRefresh", object: nil)
         
+        addActivityIndicator()
         refresh()
     }
     
@@ -56,15 +59,43 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    func addActivityIndicator() {
+        self.myActivityIndicator = UIActivityIndicatorView(frame:CGRectMake(100, 100, 100, 100)) as UIActivityIndicatorView
+        
+        self.myActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        self.myActivityIndicator.center = self.view.center
+        
+        self.view.addSubview(myActivityIndicator)
+    }
+    
     func refresh() {
         let parseClient = ParseAPIClient()
+        self.myActivityIndicator.startAnimating()
         parseClient.getLocationsFromParse() { result, error in
-            if error != nil {
-                println("Error trying to get student locations")
-            }
-            else {
+            if let error = error {
+                if error.code == 1 {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.myActivityIndicator.stopAnimating()
+                        var alert = UIAlertController(title: "Connection failed", message: "There was an error on connecting to Parse API, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                            // Do nothing
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    })
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.myActivityIndicator.stopAnimating()
+                        var alert = UIAlertController(title: "Data error", message: "There was an error on data. Try again", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                            // Do nothing
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    })
+                }
+            } else {
                 self.points = result!
                 dispatch_async(dispatch_get_main_queue()) {
+                    self.myActivityIndicator.stopAnimating()
                     self.reloadPins()
                 }
             }

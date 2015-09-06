@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import MapKit
 
 class ShareURLViewController: UIViewController {
 
     @IBOutlet weak var urlText: UITextField!
+    
+    @IBOutlet weak var mapView: MKMapView!
+    
+    var myActivityIndicator:UIActivityIndicatorView!
+    
+    var placemark: MKPlacemark?
     
     override func viewDidLoad() {
         
@@ -33,6 +40,15 @@ class ShareURLViewController: UIViewController {
         
         toolbar.setItems(buttons, animated: true)
         
+        if let placemark = placemark {
+            self.mapView.addAnnotation(placemark)
+            
+            let center = CLLocationCoordinate2D(latitude: placemark.coordinate.latitude, longitude: placemark.coordinate.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            
+            self.mapView.setRegion(region, animated: true)
+        }
+        
         self.navigationController?.view.addSubview(toolbar)
     }
     
@@ -50,6 +66,15 @@ class ShareURLViewController: UIViewController {
         } else {
             self.showURLNotValid()
         }
+    }
+    
+    func addActivityIndicator() {
+        self.myActivityIndicator = UIActivityIndicatorView(frame:CGRectMake(100, 100, 100, 100)) as UIActivityIndicatorView
+        
+        self.myActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        self.myActivityIndicator.center = self.view.center
+        
+        self.view.addSubview(myActivityIndicator)
     }
     
     func showURLNotValid() {

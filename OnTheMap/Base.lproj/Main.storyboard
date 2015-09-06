@@ -36,7 +36,6 @@
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="1" green="0.87674270355342754" blue="0.67724283541271091" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </tableViewCell>
                         </prototypes>
@@ -86,24 +85,6 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Rm3-CE-WPE">
-                                <rect key="frame" x="16" y="157" width="343" height="237"/>
-                            </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y0I-xw-Fny">
-                                <rect key="frame" x="172" y="411" width="32" height="30"/>
-                                <state key="normal" title="Next">
-                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="clickNext:" destination="ax6-lr-yei" eventType="touchUpInside" id="nFA-9x-TvH"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Mexico DF" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rcC-xv-2UI">
-                                <rect key="frame" x="16" y="100" width="277" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ek8-QH-slM">
                                 <rect key="frame" x="319" y="99" width="30" height="30"/>
                                 <state key="normal" title="Find">
@@ -114,16 +95,23 @@
                                     <action selector="placeFinderClick:" destination="ax6-lr-yei" eventType="touchUpInside" id="e1v-b0-wn8"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Where are you studying today?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jPy-la-LYH">
+                                <rect key="frame" x="69" y="57" width="239" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Mexico DF" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rcC-xv-2UI">
+                                <rect key="frame" x="16" y="100" width="277" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Ek8-QH-slM" secondAttribute="trailing" constant="10" id="PgC-dq-sqC"/>
-                            <constraint firstAttribute="centerX" secondItem="Rm3-CE-WPE" secondAttribute="centerX" id="Ze7-MF-GZB"/>
                             <constraint firstItem="Ek8-QH-slM" firstAttribute="leading" secondItem="rcC-xv-2UI" secondAttribute="trailing" constant="26" id="ah9-ac-xex"/>
                             <constraint firstItem="rcC-xv-2UI" firstAttribute="leading" secondItem="DYz-uP-aW2" secondAttribute="leadingMargin" id="cue-X1-OvQ"/>
-                            <constraint firstItem="Rm3-CE-WPE" firstAttribute="top" secondItem="rcC-xv-2UI" secondAttribute="bottom" constant="27" id="dGc-Jz-uc0"/>
-                            <constraint firstAttribute="centerX" secondItem="y0I-xw-Fny" secondAttribute="centerX" constant="-0.5" id="laW-5u-HJZ"/>
-                            <constraint firstItem="y0I-xw-Fny" firstAttribute="top" secondItem="Rm3-CE-WPE" secondAttribute="bottom" constant="17" id="oqp-Lf-wbN"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Pvk-J9-jIa">
@@ -136,8 +124,6 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="mapView" destination="Rm3-CE-WPE" id="Ko2-hA-ohJ"/>
-                        <outlet property="nextButton" destination="y0I-xw-Fny" id="gvv-V9-VjJ"/>
                         <outlet property="placeText" destination="rcC-xv-2UI" id="u4X-2z-xVU"/>
                         <segue destination="gYA-5R-n6H" kind="show" identifier="showURLScreen" id="ObL-Vw-KGJ"/>
                     </connections>
@@ -159,12 +145,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://www.google.com" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UEW-JP-boB">
-                                <rect key="frame" x="97" y="192" width="182" height="30"/>
+                                <rect key="frame" x="16" y="282" width="240" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dxR-fa-8eu">
+                                <rect key="frame" x="16" y="20" width="343" height="254"/>
+                            </mapView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPM-hB-8Ni">
-                                <rect key="frame" x="141" y="248" width="95" height="30"/>
+                                <rect key="frame" x="264" y="281" width="95" height="30"/>
                                 <state key="normal" title="Share an URL">
                                     <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -182,6 +171,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="mapView" destination="dxR-fa-8eu" id="UZW-ac-WS1"/>
                         <outlet property="urlText" destination="UEW-JP-boB" id="A0H-xo-g0q"/>
                     </connections>
                 </viewController>
@@ -400,6 +390,6 @@
         <image name="U" width="246" height="246"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="g63-Gd-qaX"/>
+        <segue reference="nVZ-iI-cmf"/>
     </inferredMetricsTieBreakers>
 </document>

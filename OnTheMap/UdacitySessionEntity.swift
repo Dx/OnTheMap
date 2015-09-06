@@ -14,5 +14,5 @@ class UdacitySessionEntity {
     var sessionId : String?
     var expirationDate : String?
     var firstName : String?
-    var lastName : String?    
+    var lastName : String?
 }
