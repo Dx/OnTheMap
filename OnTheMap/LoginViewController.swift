@@ -44,25 +44,36 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         self.myActivityIndicator.startAnimating()
         model.createSession(user, parameterPassword:pass) { result, error in
             if let errorReturned = error {
-                if errorReturned.code == 403 {
-                    println("Error 403 trying to login")
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.myActivityIndicator.stopAnimating()
-                        var alert = UIAlertController(title: "Udacity login failed", message: "There was an error on Udacity login, try again", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
-                            // Do nothing
-                        }))
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    }
-                } else {
-                    println("Error in communications trying to login to Udacity")
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.myActivityIndicator.stopAnimating()
-                        var alertUdacity = UIAlertController(title: "Udacity login failed", message: "There was an error connecting Udacity, try again", preferredStyle: UIAlertControllerStyle.Alert)
-                         alertUdacity.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
-                            // Do nothing
-                         }))
-                         self.presentViewController(alertUdacity, animated: true, completion: nil)
+                switch (errorReturned.code) {
+                    case 403 :
+                        println("Error 403 trying to login")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.myActivityIndicator.stopAnimating()
+                            var alert = UIAlertController(title: "Udacity login failed", message: "There was an error on Udacity login, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                                // Do nothing
+                            }))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                    case 401:
+                        println("Login error")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.myActivityIndicator.stopAnimating()
+                            var alertUdacity = UIAlertController(title: "Udacity login failed", message: "Confirm your username and password and try again", preferredStyle: UIAlertControllerStyle.Alert)
+                            alertUdacity.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                                // Do nothing
+                            }))
+                            self.presentViewController(alertUdacity, animated: true, completion: nil)
+                        }
+                    default:
+                        println("Error in communications trying to login to Udacity")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.myActivityIndicator.stopAnimating()
+                            var alertUdacity = UIAlertController(title: "Udacity login failed", message: "There was an error connecting Udacity, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                            alertUdacity.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                                // Do nothing
+                            }))
+                            self.presentViewController(alertUdacity, animated: true, completion: nil)
                     }
                 }
             } else {
@@ -102,25 +113,36 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             self.myActivityIndicator.startAnimating()
             udacityClient.loginWithFacebook(fbToken.token!.tokenString) { result, error in
                 if let errorReturned = error {
-                    if errorReturned.code == 403 {
+                    switch (errorReturned.code) {
+                    case 403 :
                         println("Error 403 trying to login")
                         dispatch_async(dispatch_get_main_queue()) {
                             self.myActivityIndicator.stopAnimating()
-                            var alert = UIAlertController(title: "Facebook login failed", message: "There was an error on Facebook login, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                            var alert = UIAlertController(title: "Udacity login failed", message: "There was an error on Udacity login, try again", preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
                                 // Do nothing
                             }))
                             self.presentViewController(alert, animated: true, completion: nil)
                         }
-                    } else {
-                        println("Error in communications trying to login to Facebook")
+                    case 401:
+                        println("Login error")
                         dispatch_async(dispatch_get_main_queue()) {
                             self.myActivityIndicator.stopAnimating()
-                            var alert = UIAlertController(title: "Facebook login failed", message: "There was an error connecting Facebook, try again", preferredStyle: UIAlertControllerStyle.Alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                            var alertUdacity = UIAlertController(title: "Udacity login failed", message: "Confirm your username and password and try again", preferredStyle: UIAlertControllerStyle.Alert)
+                            alertUdacity.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
                                 // Do nothing
                             }))
-                            self.presentViewController(alert, animated: true, completion: nil)
+                            self.presentViewController(alertUdacity, animated: true, completion: nil)
+                        }
+                    default:
+                        println("Error in communications trying to login to Udacity")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.myActivityIndicator.stopAnimating()
+                            var alertUdacity = UIAlertController(title: "Udacity login failed", message: "There was an error connecting Udacity, try again", preferredStyle: UIAlertControllerStyle.Alert)
+                            alertUdacity.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) -> Void in
+                                // Do nothing
+                            }))
+                            self.presentViewController(alertUdacity, animated: true, completion: nil)
                         }
                     }
                 } else {

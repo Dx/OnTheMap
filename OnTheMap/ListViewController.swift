@@ -12,16 +12,16 @@ class ListViewController: UITableViewController {
     
     @IBOutlet weak var pointsTable: UITableView!
     
-    var points: [MapPointEntity]!
-    
     var myActivityIndicator:UIActivityIndicatorView!
+    
+    var points = MapPointModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         pointsTable.delegate = self
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "askForRefresh:", name: "askForRefresh", object: nil)
-        
+
         setUI()
         refresh()
     }
@@ -29,13 +29,13 @@ class ListViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let reuseIdentifier = "cell";
         let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as! UITableViewCell
-        if let firstName = points[indexPath.row].firstName as String! {
-            if let secondName = points[indexPath.row].lastName as String! {
+        if let firstName = points.points[indexPath.row].firstName as String! {
+            if let secondName = points.points[indexPath.row].lastName as String! {
                 cell.textLabel!.text = firstName + " " + secondName
             }
         }
         
-        if let address = points[indexPath.row].mapString as String! {
+        if let address = points.points[indexPath.row].mapString as String! {
             cell.detailTextLabel!.text = address
         }
         
@@ -43,16 +43,12 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let counting = points {
-            return counting.count
-        } else {
-            return 0;
-        }
+        return points.points.count
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let app = UIApplication.sharedApplication()
-        let selectedItem = points[indexPath.row]
+        let selectedItem = points.points[indexPath.row]
         app.openURL(NSURL(string: selectedItem.mediaURL)!)
     }
 
@@ -163,7 +159,7 @@ class ListViewController: UITableViewController {
                     return pin1C.updatedAt > pin2C.updatedAt
                 })
                 
-                self.points = resultSorted
+                self.points.points = resultSorted!
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     self.tableView.reloadData()

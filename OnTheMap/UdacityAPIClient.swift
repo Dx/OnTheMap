@@ -55,7 +55,14 @@ class UdacityAPIClient : NSObject {
                             if let keySessionUW = account["key"] as? String {
                                 keySession = keySessionUW
                             }
+                        } else {
+                            if let error = parsedResult["error"] as? String {
+                                let newError = NSError(domain: "UdacityApi", code: 401, userInfo: nil)
+                                completionHandler(user: nil, error: newError)
+                                return
+                            }
                         }
+                        
                         
                         if let session = parsedResult["session"] as? NSDictionary {
                             if let sessionIdUW = session["id"] as? String {
@@ -72,48 +79,6 @@ class UdacityAPIClient : NSObject {
                         sessionObject.expirationDate = sessionExpiration
                         
                         completionHandler(user: sessionObject, error: nil)
-                    }
-                }
-            }
-        }
-        
-        task.resume()
-    }
-    
-    func getUserData (userId: String, completionHandler: (user:UserData?, error: NSError?) -> Void) -> Void {
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(userId)")!)
-        
-        let session = NSURLSession.sharedSession()
-        
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil {
-                let newError = NSError(domain: "UdacityApi", code: 1, userInfo: nil)
-                completionHandler(user: nil, error: newError)
-            } else {
-                if let unwrappedData = data {
-                    let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
-                    println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
-                
-                    var parsingError: NSError? = nil
-                    let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
-                    
-                    if let error = parsingError {
-                        completionHandler(user: nil, error: error)
-                    } else {
-                
-                        let userData = UserData(firstNameP: "a", lastNameP: "b")
-                
-                        if let user = parsedResult["user"] as? NSDictionary {
-                            if let lastName = user["last_name"] as? String {
-                                if let firstName = user["first_name"] as? String {
-                                    userData.firstName = firstName
-                                    userData.lastName = lastName
-                                }
-                            }
-                        }
-                
-                        completionHandler(user: userData, error: nil)
                     }
                 }
             }
@@ -163,6 +128,12 @@ class UdacityAPIClient : NSObject {
                         if let account = parsedResult["account"] as? NSDictionary {
                             if let keySessionUW = account["key"] as? String {
                                 keySession = keySessionUW
+                            }
+                        } else {
+                            if let error = parsedResult["error"] as? String {
+                                let newError = NSError(domain: "UdacityApi", code: 401, userInfo: nil)
+                                completionHandler(user: nil, error: newError)
+                                return
                             }
                         }
                         
@@ -214,6 +185,48 @@ class UdacityAPIClient : NSObject {
                 let resultString = NSString(data: newData, encoding: NSUTF8StringEncoding)
                 println(resultString)
                 completionHandler(result: resultString, error: nil)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func getUserData (userId: String, completionHandler: (user:UserData?, error: NSError?) -> Void) -> Void {
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(userId)")!)
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil {
+                let newError = NSError(domain: "UdacityApi", code: 1, userInfo: nil)
+                completionHandler(user: nil, error: newError)
+            } else {
+                if let unwrappedData = data {
+                    let dataMinus5 = unwrappedData.subdataWithRange(NSMakeRange(5, unwrappedData.length - 5))
+                    println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
+                    
+                    var parsingError: NSError? = nil
+                    let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
+                    
+                    if let error = parsingError {
+                        completionHandler(user: nil, error: error)
+                    } else {
+                        
+                        let userData = UserData(firstNameP: "a", lastNameP: "b")
+                        
+                        if let user = parsedResult["user"] as? NSDictionary {
+                            if let lastName = user["last_name"] as? String {
+                                if let firstName = user["first_name"] as? String {
+                                    userData.firstName = firstName
+                                    userData.lastName = lastName
+                                }
+                            }
+                        }
+                        
+                        completionHandler(user: userData, error: nil)
+                    }
+                }
             }
         }
         

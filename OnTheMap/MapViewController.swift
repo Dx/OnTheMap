@@ -15,8 +15,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     var myActivityIndicator:UIActivityIndicatorView!
     
-    var points = [MapPointEntity]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,7 +26,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.reloadPins()
+        refresh()
     }
     
     override func didReceiveMemoryWarning() {
@@ -137,10 +135,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     }
                 }
             } else {
-                self.points = result!
                 dispatch_async(dispatch_get_main_queue()) {
                     self.myActivityIndicator.stopAnimating()
-                    self.reloadPins()
+                    self.reloadPins(result!)
                 }
             }
         }
@@ -197,13 +194,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    private func reloadPins() {
+    private func reloadPins(points: [MapPointEntity]) {
         
         self.mapView.removeAnnotations(self.mapView.annotations)
         
         var annotations = [MKPointAnnotation]()
         
-        for point in self.points {
+        for point in points {
             var annotation = MKPointAnnotation()
             let lat = CLLocationDegrees(point.latitude)
             let long = CLLocationDegrees(point.longitude)
