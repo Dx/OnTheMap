@@ -14,7 +14,7 @@ class ListViewController: UITableViewController {
     
     var myActivityIndicator:UIActivityIndicatorView!
     
-    var points = MapPointModel()
+    var points = MapPointModel.sharedInstance
 
     override func viewDidLoad() {
         super.viewDidLoad()

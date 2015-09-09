@@ -10,4 +10,6 @@ import Foundation
 
 class MapPointModel {
     var points = [MapPointEntity]()
+    
+    static let sharedInstance = MapPointModel()
 }
