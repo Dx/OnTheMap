@@ -28,26 +28,29 @@ class ParseAPIClient : NSObject {
                 completionHandler(points: nil, error: newError)
             } else {
                 var parsingError: NSError? = nil
-                let parsedResult: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
+                if let parsedResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as? NSDictionary {
                 
-                if parsingError != nil {
-                    completionHandler(points: nil, error: parsingError)
-                } else {
+                    if parsingError != nil {
+                        completionHandler(points: nil, error: parsingError)
+                    } else {
                 
-                    var points = [MapPointEntity]()
+                        var points = [MapPointEntity]()
                 
-                    if let pointsArray = parsedResult["results"] as? [NSObject] {
-                        for result in pointsArray {
-                            if let resultDictionary = result as? [String : AnyObject] {
-                                points.append(MapPointEntity(dictionary: resultDictionary))
+                        if let pointsArray = parsedResult["results"] as? [NSObject] {
+                            for result in pointsArray {
+                                if let resultDictionary = result as? [String : AnyObject] {
+                                    points.append(MapPointEntity(dictionary: resultDictionary))
+                                }
                             }
                         }
-                    }
                 
-                    completionHandler(points: points, error: nil)
+                        completionHandler(points: points, error: nil)
+                    }
+                } else {
+                    let newError = NSError(domain: "ParseApi", code: 1, userInfo: nil)
+                    completionHandler(points: nil, error: newError)
                 }
             }
-
         }
         
         task.resume()
@@ -70,23 +73,31 @@ class ParseAPIClient : NSObject {
                     completionHandler(point: nil, error: newError)
                 } else {
                     var parsingError: NSError? = nil
-                    let parsedResult: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
+                    if let parsedResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as? NSDictionary {
                     
-                    var points = [MapPointEntity]()
+                        if let error = parsingError {
+                            completionHandler(point: nil, error: error)
+                        } else {
+                        
+                            var points = [MapPointEntity]()
                     
-                    if let pointsArray = parsedResult["results"] as? [NSObject] {
-                        for result in pointsArray {
-                            if let resultDictionary = result as? [String : AnyObject] {
-                                points.append(MapPointEntity(dictionary: resultDictionary))
+                            if let pointsArray = parsedResult["results"] as? [NSObject] {
+                                for result in pointsArray {
+                                    if let resultDictionary = result as? [String : AnyObject] {
+                                        points.append(MapPointEntity(dictionary: resultDictionary))
+                                    }
+                                }
+                            }
+                    
+                            if points.count > 0 {
+                                completionHandler(point: points[0], error: nil)
+                            } else {
+                                completionHandler(point: nil, error: nil)
                             }
                         }
-                    }
-                    
-                    if points.count > 0 {
-                        completionHandler(point: points[0], error: nil)
-                    }
-                    else {
-                        completionHandler(point: nil, error: nil)
+                    } else {
+                        let newError = NSError(domain: "ParseApi", code: 1, userInfo: nil)
+                        completionHandler(point: nil, error: newError)
                     }
                 }
             }

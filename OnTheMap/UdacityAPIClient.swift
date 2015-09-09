@@ -34,7 +34,7 @@ class UdacityAPIClient : NSObject {
                     println(NSString(data: dataMinus5, encoding: NSUTF8StringEncoding))
                 
                     var parsingError: NSError? = nil
-                    let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments,     error: &parsingError) as! NSDictionary
+                    let parsedResult = NSJSONSerialization.JSONObjectWithData(dataMinus5, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as! NSDictionary
                     
                     if let error = parsingError {
                         completionHandler(user: nil, error: error)
