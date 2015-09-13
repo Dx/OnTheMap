@@ -41,12 +41,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if appDelegate.alreadyHasPosition {
             showAlertToUpdatePosition()
         } else {
-            let parseClient = ParseAPIClient()
             
             let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
             
             self.myActivityIndicator.startAnimating()
-            parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
+            ParseAPIClient.sharedInstance().getStudentLocationFromParse(userKey, completionHandler: { result, error in
                 if let error = error {
                     dispatch_async(dispatch_get_main_queue()) {
                         self.myActivityIndicator.stopAnimating()
@@ -111,9 +110,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func refresh() {
-        let parseClient = ParseAPIClient()
+        
         self.myActivityIndicator.startAnimating()
-        parseClient.getLocationsFromParse() { result, error in
+        ParseAPIClient.sharedInstance().getLocationsFromParse() { result, error in
             if let error = error {
                 if error.code == 1 {
                     dispatch_async(dispatch_get_main_queue()) {
@@ -141,7 +140,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 }
             }
         }
-        
     }
     
     func askForRefresh (notification: NSNotification) {

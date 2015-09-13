@@ -14,8 +14,6 @@ class ListViewController: UITableViewController {
     
     var myActivityIndicator:UIActivityIndicatorView!
     
-    var points = MapPointModel.sharedInstance
-
     override func viewDidLoad() {
         super.viewDidLoad()
         pointsTable.delegate = self
@@ -29,13 +27,14 @@ class ListViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let reuseIdentifier = "cell";
         let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as! UITableViewCell
-        if let firstName = points.points[indexPath.row].firstName as String! {
-            if let secondName = points.points[indexPath.row].lastName as String! {
+        
+        if let firstName = ParseAPIClient.sharedInstance().mapPoints[indexPath.row].firstName as String! {
+            if let secondName = ParseAPIClient.sharedInstance().mapPoints[indexPath.row].lastName as String! {
                 cell.textLabel!.text = firstName + " " + secondName
             }
         }
         
-        if let address = points.points[indexPath.row].mapString as String! {
+        if let address = ParseAPIClient.sharedInstance().mapPoints[indexPath.row].mapString as String! {
             cell.detailTextLabel!.text = address
         }
         
@@ -43,12 +42,12 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return points.points.count
+        return ParseAPIClient.sharedInstance().mapPoints.count
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let app = UIApplication.sharedApplication()
-        let selectedItem = points.points[indexPath.row]
+        let selectedItem = ParseAPIClient.sharedInstance().mapPoints[indexPath.row]
         app.openURL(NSURL(string: selectedItem.mediaURL)!)
     }
 
@@ -129,8 +128,7 @@ class ListViewController: UITableViewController {
     
     func refresh() {
         
-        let parseClient = ParseAPIClient()
-        parseClient.getLocationsFromParse() { result, error in
+        ParseAPIClient.sharedInstance().getLocationsFromParse() { result, error in
             if let error = error {
                 if error.code == 1 {
                     dispatch_async(dispatch_get_main_queue()) {
@@ -150,16 +148,13 @@ class ListViewController: UITableViewController {
                     }
                 }
             }
-            else {
-                
+            else {                
                 let resultSorted = result?.sorted({ (pin1, pin2) -> Bool in
                     let pin1C = pin1 as MapPointEntity
                     let pin2C = pin2 as MapPointEntity
                     
                     return pin1C.updatedAt > pin2C.updatedAt
                 })
-                
-                self.points.points = resultSorted!
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     self.tableView.reloadData()
@@ -175,12 +170,11 @@ class ListViewController: UITableViewController {
         if appDelegate.alreadyHasPosition {
             showAlertToUpdatePosition()
         } else {
-            let parseClient = ParseAPIClient()
             
             let userKey = (UIApplication.sharedApplication().delegate as! AppDelegate).session!.key!
             
             self.myActivityIndicator.startAnimating()
-            parseClient.getStudentLocationFromParse(userKey, completionHandler: { result, error in
+            ParseAPIClient.sharedInstance().getStudentLocationFromParse(userKey, completionHandler: { result, error in
                 if let error = error {
                     dispatch_async(dispatch_get_main_queue()) {
                         self.myActivityIndicator.stopAnimating()

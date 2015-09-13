@@ -10,12 +10,14 @@ import Foundation
 
 class ParseAPIClient : NSObject {
     
-    let baseURL = "https://api.parse.com/1/classes/StudentLocation"    
+    let baseURL = "https://api.parse.com/1/classes/StudentLocation"
+    
+    var mapPoints = [MapPointEntity]()
 
     func getLocationsFromParse(
         completionHandler: (points:[MapPointEntity]?, error: NSError?) -> Void) -> Void {
 
-        let parameters = "?limit=1000&order=-updatedAt"
+        let parameters = "?limit=100&order=-updatedAt"
         let url = NSURL(string:baseURL + parameters)
         let request = NSMutableURLRequest(URL: url!)
             
@@ -43,6 +45,8 @@ class ParseAPIClient : NSObject {
                                 }
                             }
                         }
+                        
+                        self.mapPoints = points
                 
                         completionHandler(points: points, error: nil)
                     }
@@ -168,5 +172,14 @@ class ParseAPIClient : NSObject {
         
         task.resume()
         
+    }
+    
+    class func sharedInstance() -> ParseAPIClient {
+        
+        struct Singleton {
+            static var sharedInstance = ParseAPIClient()
+        }
+        
+        return Singleton.sharedInstance
     }
 }

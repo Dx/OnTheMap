@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E148FE5E1B9EA4EA009367AF /* MapPointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148FE5D1B9EA4EA009367AF /* MapPointModel.swift */; };
 		E17131E31B7DB2B000C80BED /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E21B7DB2B000C80BED /* UserData.swift */; };
 		E17131E51B7DC18600C80BED /* LocatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E41B7DC18600C80BED /* LocatorViewController.swift */; };
 		E17131E71B7DC75100C80BED /* ShareURLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17131E61B7DC75100C80BED /* ShareURLViewController.swift */; };
@@ -40,7 +39,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E148FE5D1B9EA4EA009367AF /* MapPointModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPointModel.swift; sourceTree = "<group>"; };
 		E17131E21B7DB2B000C80BED /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		E17131E41B7DC18600C80BED /* LocatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocatorViewController.swift; sourceTree = "<group>"; };
 		E17131E61B7DC75100C80BED /* ShareURLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareURLViewController.swift; sourceTree = "<group>"; };
@@ -192,7 +190,6 @@
 				E1DA35EE1B5F654700193B37 /* Entities */,
 				E1E7F14F1B5E1B1A00C846DA /* UdacityAPIClient.swift */,
 				E1DA35EA1B5F62F800193B37 /* ParseAPIClient.swift */,
-				E148FE5D1B9EA4EA009367AF /* MapPointModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -307,7 +304,6 @@
 				E17131E71B7DC75100C80BED /* ShareURLViewController.swift in Sources */,
 				E1E7F14C1B5E18C200C846DA /* ListViewController.swift in Sources */,
 				E17131E51B7DC18600C80BED /* LocatorViewController.swift in Sources */,
-				E148FE5E1B9EA4EA009367AF /* MapPointModel.swift in Sources */,
 				E17131E91B7DC98200C80BED /* PositionEntity.swift in Sources */,
 				E1E7F1271B5E101E00C846DA /* AppDelegate.swift in Sources */,
 				E1DA35EB1B5F62F800193B37 /* ParseAPIClient.swift in Sources */,
